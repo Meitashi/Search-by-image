@@ -3,9 +3,12 @@ const search = document.querySelector(".text");
 const container = document.querySelector(".container");
 const pictures = document.querySelector(".imgs");
 const zoom = document.querySelector(".bigImg");
+const btnExit = document.querySelector(".btn-exit");
+const blackWindow = document.querySelector(".model-window");
 let prevImg = null;
 let newImg;
 let imgs;
+let bigImg;
 
 function vyvod(e){
     if(e.code == "Enter"){
@@ -34,22 +37,41 @@ function generateImg(imgages){
 };
 search.addEventListener("keydown", vyvod);
 
-function zoomImg(e){
-    if(e.target.tagName == "IMG"){
-        if(prevImg){
-            prevImg.style.width = "";
-            prevImg.style.height = "";
-            prevImg.style.transition = "";
-            prevImg.style.transform = "";
-            prevImg.style.cursor = "";
-        }
-        e.target.style.transition = "none";
-        e.target.style.transform = "none";
-        e.target.style.cursor = "default";
-        e.target.style.width = 490 + "px";
-        e.target.style.height = 390 + "px";
-        prevImg = e.target;
+function prevImgFunc(){
+    if(prevImg){
+        prevImg.style.width = "";
+        prevImg.style.height = "";
+        prevImg.style.transition = "";
+        prevImg.style.transform = "";
+        prevImg.style.cursor = "";
     }
 };
 
-pictures.addEventListener("click", zoomImg);
+function zoomImg(e){
+    if(e.target.tagName == "IMG"){
+        prevImgFunc();
+        prevImg = e.target;
+        bigImg = document.createElement("img");
+        bigImg.src = e.target.src;
+        blackWindow.innerHTML = "";
+        blackWindow.style.display = "block";
+        btnExit.style.display = "block";
+        blackWindow.appendChild(bigImg);
+        bigImg.style.transition = "none";
+        bigImg.style.transform = "none";
+        bigImg.style.width = 490 + "px";
+        bigImg.style.height = 380 + "px";
+        bigImg.style.cursor = "default";
+        blackWindow.classList = "model-window-x";
+        btnExit.style.display = "block"
+    };
+};
+
+btnExit.addEventListener("click", function asd(){
+    blackWindow.innerHTML = "";
+    blackWindow.style.display = "none";
+    btnExit.style.display = "none";
+    blackWindow.classList = "model-window";
+});
+
+pictures.addEventListener("dblclick", zoomImg);
